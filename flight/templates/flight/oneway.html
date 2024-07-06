@@ -1,0 +1,565 @@
+{% load static %}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zxx">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Travelin - Travel Tour Booking HTML Templates</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'image/home/Magnet logo.png' %}">
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/home/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+    <!--Custom CSS-->
+    <link href="{% static 'css/home/style.css' %}" rel="stylesheet" type="text/css">
+    <!--Plugin CSS-->
+    <link href="{% static 'css/home/plugin.css' %}" rel="stylesheet" type="text/css">
+    <!--Oneway CSS-->
+    <link href="{% static 'css/flight/oneway.css' %}" rel="stylesheet" type="text/css">
+
+    <!--Font Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+
+    <link rel="stylesheet" href="{% static 'css/home/fonts/line-icons.css' %}" type="text/css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+</head>
+
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status"></div>
+</div>
+<!-- Preloader Ends -->
+
+<!-- header starts -->
+{% include 'home/header.html' %}
+<!-- header ends -->
+
+<!-- Modify Tab Starts -->
+<section class="pt-4 pb-4 bg-grey">
+    <div class="container z-index0">
+        <ul class=" nav nav-pills gap-2 mb-1" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active trip-btn" id="pills-home-tab" data-bs-toggle="pill"
+                    data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
+                    aria-selected="true">ONE TRIP</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link trip-btn" id="pills-profile-tab" data-bs-toggle="pill"
+                    data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
+                    aria-selected="false">ROUND TRIP</button>
+            </li>
+            <!-- <li class="nav-item" role="presentation">
+                    <button class="nav-link trip-btn" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">MULTI TRIP</button>
+                </li> -->
+        </ul>
+        <div class="book-form  w-100 bg-white box-shadow p-4 pb-1 z-index1 rounded">
+            <div id="input-sec" class="row">
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                        aria-labelledby="pills-home-tab">
+                        <form id="one-trip" method="GET" action="{% url 'one_trip' %}">
+                            {% csrf_token %}
+                            <div class="row d-flex align-items-center justify-content-between">
+                                <div class="col-lg mb-2">
+                                    <div class="form-group">
+                                        <div class="input-box text-start">
+                                            <label>FROM</label>
+                                            <input type="text" class="f-inp" id="onetripfrom"
+                                                placeholder="Enter The City" value="{{fromcityname}}"
+                                                name="from_one_trip">
+                                            <span class="error" id="des_error"></span>
+                                            <input type="hidden" id="citycodeInput" name="from_city_code"
+                                                value="{{from_city_code}}">
+                                            <input type="hidden" id="airportCodeInput" name="fromAirportCode"
+                                                value="{{fromAircode}}">
+                                            <input type="hidden" id="aircityname" name="fromcityname"
+                                                value="{{fromcityname}}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg mb-2">
+                                    <div class="form-group">
+                                        <div class="input-box text-start">
+                                            <label>TO</label>
+                                            <input type="text" class="f-inp" id="onetripto" placeholder="Enter The City"
+                                                value="{{tocityname}}" name="to_one_trip">
+                                            <span class="error" id="des_error"></span>
+                                            <input type="hidden" id="tocitycodeInput" name="to_city_code"
+                                                value="{{to_city_code}}">
+                                            <input type="hidden" id="toairportCodeInput" name="toAirportCode"
+                                                value="{{toAircode}}">
+                                            <input type="hidden" id="toaircityname" name="tocityname"
+                                                value="{{tocityname}}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg mb-2">
+                                    <div class="form-group">
+                                        <div class="input-box">
+                                            <label>DEPARTURE DATE</label>
+                                            <!-- <input type="text" class="f-inp" data-date="" data-date-format="DD MMMM YYYY" name="check-in" id="check-in" readonly> -->
+                                            <!-- <input type="text" class="check mt-2 input" data-date="" data-date-format="DD MMMM YYYY" style="font-size: 14px;" name="check-in" id="check-in" readonly> -->
+                                            <input type="hidden"  value="{{date_object}}" id="checkin">
+                                                <input type="date" class="f-inp" id="check-in" name="check-in" value="{{date_object}}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg mb-2">
+                                    <div class="form-group">
+                                        <div class="input-box">
+                                            <label>RETURN DATE</label>
+                                            <input type="text" class="f-inp"
+                                                placeholder="Book a round trip to save more" name="Return" readonly
+                                                disabled style="opacity: .5;font-size: 10px;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg mb-2">
+                                    <div class="form-group">
+                                        <div class="input-box">
+                                            <label>TRAVELLER & CLASS</label>
+                                            <input type="text" class="f-inp" id="pasInput"
+                                                placeholder="Travellers & Class" onclick="showOnePaxForm()">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg mb-2">
+                                    <div class="form-group mb-0 text-center">
+                                        <label class="mb-3"></label>
+                                        <button type="submit" class="nir-btn w-100" onclick="submitOneTripForm()"><i
+                                                class="fa fa-search me-2"></i>Modify Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 d-flex radio-inp align-items-center mb-1">
+                                    <p class="mb-0 me-3">Special Fares:</p>
+                                    <input type="radio" id="regular" class="me-1" name="fav_language" value="RegularFare"
+                                        checked>
+                                    <label class="mb-0 me-3 fw-bold black" for="Regular Fares">Regular</label>
+                                    <input type="radio" id="Student" class="me-1" name="fav_language" value="StudentFare">
+                                    <label class="mb-0 me-3 fw-bold black" for="Student Fares">Student</label>
+                                    <input type="radio" id="Senior" class="me-1" name="fav_language" value="SeniorFare">
+                                    <label class="mb-0 me-3 fw-bold black" for="Senior citizen Fares">Senior
+                                        Citizen</label>
+                                    <input type="hidden" id="selectedFare" name="selectedFare" value="RegularFare">
+                                </div>
+                                <div class="col-lg-6 form-check form-switch">
+                                    <label class="fw-bold ms-2 mb-0" for="flexSwitchCheckDefault">DIRECT FLIGHTS</label>
+                                    <input class="form-check-input t_input" style="width: 40px;height: 20px;" type="checkbox"
+                                        role="switch" id="flexSwitchCheckDefault">
+                                    <input type="hidden" id="resultValue" value="{{DirectFlight_bool}}" name="resultdir">
+                                </div>
+                            </div>
+                            <div id="pas_form_onetrip" class="pas_form container row">
+                                <div class="bg-white shadows ms-auto p-3 pas_div">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <input type="hidden" id="hiddenAdultValue" value="{{NoOfAdults}}">
+                                        <label class="fw-bold  mb-0 black" for="Adults">Adults</label>
+                                        <select class="f-inp-form" name="Adults" id="Adult_inp">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                        </select>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <input type="hidden" id="hiddenChildValue" value="{{NoOfChild}}">
+                                        <label class="fw-bold  mb-0 black" for="Child">Child</label>
+                                        <select class="f-inp-form" name="Childs" id="Child_inp">
+                                            <option value="0">Select</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                        </select>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <input type="hidden" id="hiddeninfantValue" value="{{NoOfInfant}}">
+                                        <label class="fw-bold  mb-0 black" for="Infant">Infant</label>
+                                        <select class="f-inp-form" name="Infants" id="Infant_inp">
+                                            <option value="0">Select</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                        </select>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <input type="hidden" id="hiddenclassValue" value="{{flight_class}}">
+                                        <label class="fw-bold  mb-0 black">Class</label>
+                                        <select class="f-inp-form" id="class_inp" name="classes">
+                                            <option value="1">All</option>
+                                            <option value="2">Econamy</option>
+                                            <option value="3">PremiumEconomy</option>
+                                            <option value="4">Business</option>
+                                            <option value="5">PremiumBusiness</option>
+                                            <option value="6">First</option>
+                                        </select>
+                                    </div>
+                                    <div class="pt-2 border-t text-center">
+                                        <button class="nir-btn px-5 rounded-pill py-1" type="button"
+                                            onclick="hideOneTripForm()">Apply</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="static-url" data-static-url="{% static 'image/AirlineLogo/' %}"></div>
+                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                        <form id="round-trip" method="GET" action="{% url 'round_trip'%}"
+                            onsubmit="return validateForm()">
+                            {% csrf_token %}
+                            <div class="row d-flex align-items-center justify-content-between">
+                                <div class="col-lg mb-2">
+                                    <div class="form-group">
+                                        <div class="input-box">
+                                            <label>FROM</label>
+                                            <input type="text" class="f-inp" id="round-from"
+                                                placeholder="Enter The City" value="{{fromcityname}}"
+                                                name="from-one-trip">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg mb-2">
+                                    <div class="form-group">
+                                        <div class="input-box">
+                                            <label>TO</label>
+                                            <input type="text" class="f-inp" id="round-to" placeholder="Enter The City"
+                                                value="{{tocityname}}" name="from-one-trip">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg mb-2">
+                                    <div class="form-group">
+                                        <div class="input-box">
+                                            <label>DEPARTURE DATE</label>
+                                            <input type="date" class="f-inp" name="Depart" id="rcheck-in">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg mb-2">
+                                    <div class="form-group">
+                                        <div class="input-box">
+                                            <label>RETURN DATE</label>
+                                            <input type="date" class="f-inp" name="Return" id="rcheck-out">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg mb-2">
+                                    <div class="form-group">
+                                        <div class="input-box">
+                                            <label>TRAVELLER & CLASS</label>
+                                            <input type="text" class="f-inp" id="pasInput_rt"
+                                                placeholder="Travellers & Class" onclick="showRoundPaxForm()">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg mb-2">
+                                    <div class="form-group mb-0 text-center">
+                                        <label class="mb-3"></label>
+                                        <button type="submit" class="nir-btn w-100"><i
+                                                class="fa fa-search me-2"></i>Modify Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 d-flex radio-inp align-items-center mb-1">
+                                    <p class="mb-0 me-3">Special Fares:</p>
+                                    <input type="radio" id="regular" class="me-1" name="fav_language" value="Regular"
+                                        checked>
+                                    <label class="mb-0 me-3 fw-bold black" for="Regular Fares">Regular</label>
+                                    <input type="radio" id="Student" class="me-1" name="fav_language" value="Student">
+                                    <label class="mb-0 me-3 fw-bold black" for="Student Fares">Student</label>
+                                    <input type="radio" id="Senior" class="me-1" name="fav_language" value="Senior">
+                                    <label class="mb-0 me-3 fw-bold black" for="Senior citizen Fares">Senior
+                                        Citizen</label>
+                                </div>
+                                <div class="col-lg-6 form-check form-switch">
+                                    <label class="fw-bold ms-2 mb-0" for="flexSwitchCheckDefault">DIRECT FLIGHTS</label>
+                                    <input class="form-check-input" style="width: 40px;height: 20px;" type="checkbox"
+                                        role="switch" id="flexSwitchCheckDefault">
+                                    <input type="hidden" id="resultValue" value="" name="resultdir">
+                                </div>
+                            </div>
+                            <div id="pas_form_roundtrip" class="pas_form container row">
+                                <div class="bg-white shadows ms-auto p-3 pas_div">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <label class="fw-bold  mb-0 black" for="Adults">Adults</label>
+                                        <select class="f-inp-form" name="Adults" id="Adult_inp_rt">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <label class="fw-bold  mb-0 black" for="Child">Child</label>
+                                        <select class="f-inp-form" name="Childs" id="Child_inp_rt">
+                                            <option value="0">Select</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                        </select>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <label class="fw-bold  mb-0 black" for="Infant">Infant</label>
+                                        <select class="f-inp-form" name="Infants" id="Infant_inp_rt">
+                                            <option value="0">Select</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                        </select>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <label class="fw-bold  mb-0 black" for="Infant">Class</label>
+                                        <select class="f-inp-form">
+                                            <option selected value="1">All</option>
+                                            <option value="2">Econamy</option>
+                                            <option value="3">PremiumEconomy</option>
+                                            <option value="4">Business</option>
+                                            <option value="5">PremiumBusiness</option>
+                                            <option value="6">First</option>
+                                        </select>
+                                    </div>
+                                    <div class="pt-2 border-t text-center">
+                                        <button class="nir-btn px-5 rounded-pill py-1" type="button"
+                                            onclick="hideRoundTripForm()">Apply</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Modify Tab Ends -->
+
+<div id="flight_details" style="display: none;">{{ FLight_list }}</div>
+<input type="hidden" id="Sort_F_details" name="Sort_F_details" value="">
+<input type="hidden" id="token_id_fare" name="token_id_fare" value="{{ token_id }}">
+
+
+<!-- filter section -->
+<section class="trending pt-6 pb-0 bg-lgrey z-index0">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 p-0">
+                <div class="sidebar-sticky stick-bar bg-white py-1 box-shadow rounded">
+                    <div class="list-sidebar mx-3">
+                        <div class="sidebar-item mb-1 wrapper pb-1">
+                            <h3 class="mb-1">Price Range</h3>
+                            <div class="price-input">
+                                <div class="form-row d-flex field">
+                                    <label for="price" class="price_sym mb-0 fw-bold theme2"><span style="font-family:'Poppins,';font-size: 18px;">₹</span></label>
+                                    <input type="number" readonly class="input-min fw-bold theme2" value="{{min_price}}">
+                                </div>
+                                <div class="col d-flex field" style="margin-left: 120px;">
+                                    <label for="price" class="price_sym mb-0 fw-bold theme2"><span style="font-family:'Poppins,';font-size: 18px;">₹</span></label>
+                                    <input type="number" readonly class="input-min fw-bold theme2" value="{{ max_price }}">
+                                </div>
+                            </div>
+                            <div class="slider">
+                                <div class="progress"></div>
+                            </div>
+                            <div class="range-input">
+                                <input type="range" class="form-range range-min" min="{{min_price}}" max="{{max_price}}" value="{{min_price}}" step="100">
+                                <input type="range" class="form-range range-max" min="{{min_price}}" max="{{max_price}}" value="{{max_price}}" step="100">
+                            </div>
+                            <!-- <div class="range-slider mt-3 mb-3">
+                                    <div data-min="0" data-max="2000" data-unit="$" data-min-name="min_price" data-max-name="max_price" class="range-slider-ui ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" aria-disabled="false">
+                                        <span class="min-value">0 $</span> 
+                                        <span class="max-value">20000 $</span>
+                                        <div class="ui-slider-range ui-widget-header ui-corner-all full" style="left: 0%; width: 100%;"></div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div> -->
+                        </div>
+                        <div class="sidebar-item mb-1 pb-1">
+                            <h3 class="mb-1">Stops {{fromAircode}} - {{toAircode}}</h3>
+                            <ul class="sidebar-category1 d-flex gap-4">
+                                <li><input type="checkbox" id="nonStop" data-stops="Non-stop" class="form-check-inputs"> Non-stop </li>
+                                <li><input type="checkbox" id="oneStop" data-stops="1-stop(s)" class="form-check-inputs"> 1 Stop </li>
+                            </ul>
+                        </div>
+                        <div class="sidebar-item mb-1 pb-1">
+                            <h3 class="mb-2">Take off from {{fromAircode}}</h3>
+                            <div class="sidebar-category1 row justify-content-center">
+                                <button for="departure-time" class="ftime_btn  me-2 mb-1 col-lg-5"><img src="{% static 'image/flight/F-mrng.png' %}" class="ftime_img" alt=""> Before
+                                    6AM</button>
+                                <button for="departure-time" class="ftime_btn  me-2 mb-1 col-lg-5"><img
+                                        src="{% static 'image/flight/F-noon.png' %}" class="ftime_img" alt="">
+                                    6AM-12PM</button>
+                                <button for="departure-time" class="ftime_btn  me-2 mb-1 col-lg-5"><img
+                                        src="{% static 'image/flight/F-evng.png' %}" class="ftime_img" alt="">
+                                    12PM-6PM</button>
+                                <button for="departure-time" class="ftime_btn  me-2 mb-1 col-lg-5"><img
+                                        src="{% static 'image/flight/F-night.png' %}" class="ftime_img" alt=""> After
+                                    6PM</button>
+                            </div>
+                        </div>
+                        <div class="sidebar-item mb-1 pb-1">
+                            <h3 class="mb-2">Arrival in {{toAircode}}</h3>
+                            <div class="sidebar-category1 row justify-content-center">
+                                <button for="arrival-time" class="ftime_btn  me-2 mb-1 col-lg-5"><img
+                                        src="{% static 'image/flight/F-mrng.png' %}" class="ftime_img " alt=""> Before
+                                    6AM</button>
+                                <button for="arrival-time" class="ftime_btn  me-2 mb-1 col-lg-5"><img
+                                        src="{% static 'image/flight/F-noon.png' %}" class="ftime_img " alt="">
+                                    6AM-12PM</button>
+                                <button for="arrival-time" class="ftime_btn  me-2 mb-1 col-lg-5"><img
+                                        src="{% static 'image/flight/F-evng.png' %}" class="ftime_img " alt="">
+                                    12PM-6PM</button>
+                                <button for="arrival-time" class="ftime_btn  me-2 mb-1 col-lg-5"><img
+                                        src="{% static 'image/flight/F-night.png' %}" class="ftime_img" alt=""> After
+                                    6PM</button>
+                            </div>
+                        </div>
+                        <div class="sidebar-item mb-1 pb-1">
+                            <h3 class="mb-1">Airlines</h3>
+                            <ul class="sidebar-category1">
+                                <li><input type="checkbox" id="Air-india" data-airline="Air India" class="name_check" > Air india </li>
+                                <li><input type="checkbox" id="Air-asia" data-airline="Air asia" class="name_check"  > Air asia </li>
+                                <li><input type="checkbox" id="Indigo" data-airline="Indigo" class="name_check" > Indigo </li>
+                                <li><input type="checkbox" id="Vistara" data-airline="Vistara" class="name_check" > Vistara </li>
+                            </ul>
+                        </div>
+                        <div class="sidebar-item mb-1 pb-1">
+                            <h3 class="mb-1">All Itineraries</h3>
+                            <ul class="sidebar-category1">
+                                <li><input type="checkbox" id="Non-Refundable" data-refund="Not Refundable" class="refund_check"> Non-Refundable </li>
+                                <li><input type="checkbox" id="Refundable" data-refund="Refundable" class="refund_check"> Refundable </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="flight-list">
+                    <div class="d-flex align-items-center justify-content-end mb-2">
+                        <p class="mb-0 me-3 fw-bold">SORT BY : </p>
+                        <ul class="nav nav-pills nav-filter gap-2" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="pills-fil1-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-fil1" type="button" role="tab" aria-controls="pills-home"
+                                    aria-selected="true" onclick="sortFlight('Name')"><svg
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="me-2 atoz"
+                                        style="width: 22px;"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path fill="#ffffff"
+                                            d="M183.6 469.6C177.5 476.2 169 480 160 480s-17.5-3.8-23.6-10.4l-88-96c-11.9-13-11.1-33.3 2-45.2s33.3-11.1 45.2 2L128 365.7V64c0-17.7 14.3-32 32-32s32 14.3 32 32V365.7l32.4-35.4c11.9-13 32.2-13.9 45.2-2s13.9 32.2 2 45.2l-88 96zM320 320c0-17.7 14.3-32 32-32H480c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9L429.3 416H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H352c-12.9 0-24.6-7.8-29.6-19.8s-2.2-25.7 6.9-34.9L402.7 352H352c-17.7 0-32-14.3-32-32zM416 32c12.1 0 23.2 6.8 28.6 17.7l64 128 16 32c7.9 15.8 1.5 35-14.3 42.9s-35 1.5-42.9-14.3L460.2 224H371.8l-7.2 14.3c-7.9 15.8-27.1 22.2-42.9 14.3s-22.2-27.1-14.3-42.9l16-32 64-128C392.8 38.8 403.9 32 416 32zM395.8 176h40.4L416 135.6 395.8 176z" />
+                                    </svg>Airlines</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-fil2-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-fil2" type="button" role="tab" aria-controls="pills-profile"
+                                    aria-selected="false" onclick="sortFlight('Departure')"><i
+                                        class='fas fa-exchange-alt me-2' style="rotate: 90deg;"></i>Departure</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link " id="pills-fil3-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-fil4" type="button" role="tab" aria-controls="pills-contact"
+                                    aria-selected="false" onclick="sortFlight('Duration')"><i
+                                        class='fas fa-exchange-alt me-2' style="rotate: 90deg;"></i>Duration</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-fil4-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-fil4" type="button" role="tab" aria-controls="pills-profile"
+                                    aria-selected="false" onclick="sortFlight('Arrival')"><i
+                                        class='fas fa-exchange-alt me-2' style="rotate: 90deg;"></i>Arrival</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-fil5-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-fil5" type="button" role="tab" aria-controls="pills-contact"
+                                    aria-selected="false" onclick="sortFlight('Price')"><i
+                                        class='fas fa-exchange-alt me-2' style="rotate: 90deg;"></i>Price</button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="flight-full">
+                        <div class="item mb-2 border-all p-2 px-2 rounded">
+                            <div class="row d-flex align-items-center justify-content-between">
+                                <div id="flightlist">
+                                    <!-- flight list condainer -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- top Destination ends -->
+
+
+<!-- Back to top start -->
+<div id="back-to-top">
+    <a href="#"></a>
+</div>
+<!-- Back to top ends -->
+<style>
+    .t_input {
+        width: 40px;
+        height: 20px;
+        border: 2px solid #029e9d !important;
+    }
+    
+    /* .form-check-input:checked {
+        background-color: #029e9d !important;
+        border-color: #029e9d  !important;
+    } */
+    
+    .t_input:checked {
+      background-color: #029e9d !important;
+      border-color: #029e9d !important;
+    }
+    </style>
+
+<!-- *Scripts* -->
+<!-- <script src="{% static 'js/home/jquery-3.5.1.min.js' %}"></script> -->
+<!-- <script src="{% static 'js/home/bootstrap.min.js' %}"></script> -->
+<script src="{% static 'js/home/particles.js' %}"></script>
+<script src="{% static 'js/home/particlerun.js' %}"></script>
+<script src="{% static 'js/home/plugin.js' %}"></script>
+<script src="{% static 'js/home/main.js' %}"></script>
+<!-- <script src="{% static 'js/home/custom-swiper.js' %}"></script> -->
+<script src="{% static 'js/home/custom-nav.js' %}"></script>
+<script src="{% static 'js/flight/oneway.js' %}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+
+
+</body>
+
+</html>

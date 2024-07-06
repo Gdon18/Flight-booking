@@ -1,0 +1,94 @@
+.h-600{ 
+    height: 500px;
+}
+
+.f-inp {
+    border: 1px solid #d3cdcd !important;
+    padding: 12px 15px !important;
+    border-radius: 4px !important;
+    height: 50px;
+}
+
+.f-inp-form {
+    border: 1px solid #d3cdcd !important;
+    padding: 4px 6px !important;
+    border-radius: 4px !important;
+    width: 120px;
+    font-size: 13px;
+}
+
+.trip-btn {
+    padding: 4px 15px !important;
+    border-radius: 50px !important;
+    font-size: 13px;
+    border: 1px solid #029e9d !important;
+}
+
+.t_input {
+    width: 40px;
+    height: 20px;
+    border: 2px solid #029e9d;
+}
+
+.t_input:checked {
+  background-color: #029e9d;
+  border-color: #029e9d;
+}
+
+.nav-pills .nav-link.active {
+    background: #029e9d;
+}
+
+.shadows {
+    box-shadow: 0 1px 3px 1px rgba(0,0,0,.15);
+}
+
+.pas_form {
+    position: absolute;
+    z-index: 9;
+    top: 80px;
+    right: 190px;
+}
+
+.pas_form1 {
+    display: none;
+}
+
+.pas_form2 {
+    display: none;
+}
+
+.pas_div { 
+   width: 250px;
+   border-radius: 4px;
+}
+
+
+/* MEDIA QUERIES */
+@media (max-width: 992px) { 
+    .slide_div {
+        display: none;
+    }
+}
+
+
+.ui-autocomplete {
+    z-index: 1050;
+    box-shadow: 0 1px 3px 1px rgba(0,0,0,.15);
+    background: #ffffff;
+    border-radius: 12px;
+    max-height: 200px;
+    width: 200px;
+    overflow-y: scroll;
+    scrollbar-width: 10px;
+    overflow-x: hidden;
+    font-size: 13px !important;
+    position: relative !important;
+}
+
+.ui-menu-item {
+    padding: 3px 0px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
